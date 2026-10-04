@@ -407,6 +407,12 @@ function renderLetters(){
   });
 }
 
+function addLetter(ch){
+  displayed.shift();
+  displayed.push(ch);
+  renderLetters();
+}
+
 function makeKeyboard(){
   const row=document.getElementById("row1");
   row.innerHTML="";
@@ -415,14 +421,23 @@ function makeKeyboard(){
     b.type="button";
     b.textContent=ch;
     b.setAttribute("aria-label","Huruf "+ch);
-    b.onclick=()=>{
-      displayed.shift();
-      displayed.push(ch);
-      renderLetters();
-    };
+    b.onclick=()=>addLetter(ch);
     row.appendChild(b);
   });
 }
+
+/* Physical keyboard input – does not focus any input, so no virtual keyboard is triggered */
+document.addEventListener("keydown", (e) => {
+  // Ignore if modifier keys are held (except Shift for uppercase)
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+  const key = e.key.toUpperCase();
+  if (alphabet.includes(key)) {
+    e.preventDefault(); // prevent any default browser behavior
+    addLetter(key);
+  }
+});
+
 
 /* Build the analog watch face once.
    SVG coordinates keep every element aligned and prevent accidental double rings. */
