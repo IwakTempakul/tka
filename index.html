@@ -3,329 +3,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blackboard Letter Display</title>
+<title>Blackboard Letter Display — Pro</title>
 <style>
-  *{box-sizing:border-box}
-  html,body{margin:0;width:100%;height:100%;overflow:hidden}
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Share+Tech+Mono&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden}
   body{
-    background:#e8e4d9;
-    font-family:"Trebuchet MS","Arial Rounded MT Bold",Arial,sans-serif;
-    color:#252525;
+    background:linear-gradient(160deg,#d8d2c2 0%,#c9c1ad 40%,#b8ae98 100%);
+    font-family:"Fredoka",system-ui,sans-serif;
+    color:#1e1e1e;
+    -webkit-font-smoothing:antialiased;
   }
 
   .stage{
-    width:100vw;
-    height:100vh;
-    aspect-ratio:16/9;
-    min-height:100%;
-    display:flex;
-    flex-direction:column;
-    padding:2.2vh 2.2vw 2vh;
+    width:100vw;height:100vh;
+    display:flex;flex-direction:column;
+    padding:1.8vh 2vw 1.6vh;
     position:relative;
   }
 
-  /* subtle hand-drawn / pen-stroke look */
+  /* paper grain */
   .stage:before{
     content:"";
     position:absolute;inset:0;
-    pointer-events:none;
-    opacity:.15;
-    background:
-      repeating-linear-gradient(7deg,transparent 0 9px,rgba(30,30,30,.05) 10px 11px),
-      repeating-linear-gradient(-9deg,transparent 0 13px,rgba(255,255,255,.05) 14px 15px);
+    pointer-events:none;opacity:.12;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
+  /* ── TOP BAR ── */
   .topbar{
-    height:18%;
+    height:16.5%;
     display:grid;
-    grid-template-columns:1fr 3fr 1fr;
+    grid-template-columns:1fr 2.6fr 1fr;
     align-items:center;
-    gap:1.5vw;
-    position:relative;
-    z-index:2;
+    gap:1.2vw;
+    position:relative;z-index:2;
   }
 
   .clock-wrap,.calendar{
-    height:90%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    height:92%;
+    display:flex;align-items:center;justify-content:center;
   }
 
-  /* REDESIGNED ANALOG WATCH FACE
-     - exactly one outer circle
-     - SVG is used so the ring, ticks, numerals and hands share one coordinate system
-     - no pseudo-element creates a second circle
-  */
+  /* Analog clock */
   .clock{
-    width:min(10.5vw,138px);
+    width:min(9.8vw,128px);
     aspect-ratio:1;
     position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transform:rotate(-1deg);
-    filter:drop-shadow(3px 4px 0 rgba(37,37,37,.18));
+    filter:drop-shadow(2px 3px 0 rgba(30,30,30,.2));
   }
-
-  .analog-face{
-    width:100%;
-    height:100%;
-    display:block;
-    overflow:visible;
-  }
-
+  .analog-face{width:100%;height:100%;display:block;overflow:visible}
   .face-ring{
-    fill:#f1ead7;
-    stroke:#252525;
-    stroke-width:3.2;
+    fill:#f5f0e0;
+    stroke:#1e1e1e;
+    stroke-width:3.4;
     vector-effect:non-scaling-stroke;
   }
-
   .face-inner{
-    fill:none;
-    stroke:#252525;
-    stroke-width:1;
-    opacity:.18;
+    fill:none;stroke:#1e1e1e;stroke-width:1;opacity:.15;
     vector-effect:non-scaling-stroke;
   }
-
-  .tick{
-    stroke:#252525;
-    stroke-linecap:round;
-    vector-effect:non-scaling-stroke;
-  }
-
-  .tick.major{stroke-width:2.1}
-  .tick.minor{stroke-width:1;opacity:.72}
-
+  .tick{stroke:#1e1e1e;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .tick.major{stroke-width:2.2}
+  .tick.minor{stroke-width:1;opacity:.65}
   .clock-number{
-    fill:#252525;
+    fill:#1e1e1e;
     font-family:Arial,sans-serif;
-    font-size:8.5px;
-    font-weight:900;
-    text-anchor:middle;
-    dominant-baseline:middle;
+    font-size:8.2px;font-weight:900;
+    text-anchor:middle;dominant-baseline:middle;
   }
+  .clock-hand{transform-origin:50px 50px;transform-box:view-box}
+  .hour-hand{stroke:#1e1e1e;stroke-width:4.2;stroke-linecap:round}
+  .minute-hand{stroke:#1e1e1e;stroke-width:2.6;stroke-linecap:round}
+  .second-hand{stroke:#c41e1e;stroke-width:1.4;stroke-linecap:round}
+  .hand-tail{stroke:#1e1e1e;stroke-width:2.6;stroke-linecap:round}
+  .center-ring{fill:#f5f0e0;stroke:#1e1e1e;stroke-width:1.9}
+  .center-dot{fill:#c41e1e}
 
-  .clock-hand{
-    transform-origin:50px 50px;
-    transform-box:view-box;
-  }
-
-  .hour-hand{
-    stroke:#252525;
-    stroke-width:4;
-    stroke-linecap:round;
-  }
-
-  .minute-hand{
-    stroke:#252525;
-    stroke-width:2.5;
-    stroke-linecap:round;
-  }
-
-  .second-hand{
-    stroke:#555;
-    stroke-width:1.35;
-    stroke-linecap:round;
-  }
-
-  .hand-tail{
-    stroke:#252525;
-    stroke-width:2.5;
-    stroke-linecap:round;
-  }
-
-  .center-ring{
-    fill:#f1ead7;
-    stroke:#252525;
-    stroke-width:1.8;
-  }
-
-  .center-dot{
-    fill:#252525;
-  }
-
+  /* Title + digital clock */
   .title{
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
     text-align:center;
-    font-size:clamp(15px,2vw,29px);
-    font-weight:900;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    transform:rotate(-.5deg);
+    transform:rotate(-.4deg);
   }
   .digital-clock{
-    display:inline-block;
-    color:#c91515;
-    font-family:"DSEG7-Classic","Courier New",monospace;
-    font-size:clamp(22px,3vw,44px);
+    font-family:"Share Tech Mono","Courier New",monospace;
+    font-size:clamp(24px,3.1vw,46px);
+    color:#c41e1e;
+    letter-spacing:.08em;
     line-height:1;
-    letter-spacing:.06em;
-    margin-bottom:.35em;
-    text-shadow:0 0 2px rgba(201,21,21,.25);
+    margin-bottom:.28em;
+    text-shadow:
+      0 0 8px rgba(196,30,30,.35),
+      0 0 2px rgba(196,30,30,.2);
   }
-  .title span{
-    display:inline-block;
-    border-bottom:3px solid #252525;
-    padding:0 .7em .15em;
-  }
-
-  .calendar{
-    flex-direction:column;
-    font-weight:900;
-    transform:rotate(1deg);
-  }
-  .cal-label{font-size:clamp(10px,1vw,15px);letter-spacing:.16em}
-  .date{font-size:clamp(22px,3vw,42px);line-height:1}
-  .monthyear{font-size:clamp(11px,1.25vw,18px);letter-spacing:.06em}
-
-  .board{
-    flex:1;
-    min-height:0;
-    background:
-      radial-gradient(circle at 20% 30%,rgba(255,255,255,.045),transparent 25%),
-      radial-gradient(circle at 75% 70%,rgba(255,255,255,.035),transparent 22%),
-      #202d29;
-    border:clamp(5px,.55vw,9px) solid #6d5237;
-    border-radius:8px;
-    box-shadow:
-      inset 0 0 0 3px #9a7750,
-      inset 0 0 35px rgba(0,0,0,.55),
-      6px 8px 0 rgba(37,37,37,.18);
+  .title-text{
+    font-size:clamp(14px,1.85vw,27px);
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#1e1e1e;
+    border-bottom:3px solid #1e1e1e;
+    padding:0 .75em .12em;
     position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  }
+
+  /* Calendar */
+  .calendar{
+    flex-direction:column;font-weight:700;
+    transform:rotate(.8deg);
+    text-align:center;
+  }
+  .cal-label{font-size:clamp(10px,.95vw,14px);letter-spacing:.18em;opacity:.8}
+  .date{font-size:clamp(24px,3.1vw,44px);line-height:1;margin:.05em 0}
+  .monthyear{font-size:clamp(11px,1.15vw,17px);letter-spacing:.06em;opacity:.85}
+
+  /* ── BOARD ── */
+  .board{
+    flex:1;min-height:0;
+    background:
+      radial-gradient(ellipse at 25% 20%,rgba(255,255,255,.06),transparent 40%),
+      radial-gradient(ellipse at 75% 80%,rgba(255,255,255,.04),transparent 35%),
+      linear-gradient(165deg,#1a2824 0%,#16221e 50%,#13201c 100%);
+    border:clamp(6px,.6vw,10px) solid #6b4f35;
+    border-radius:10px;
+    box-shadow:
+      inset 0 0 0 3px #9c7a52,
+      inset 0 0 50px rgba(0,0,0,.55),
+      0 12px 28px rgba(0,0,0,.25),
+      5px 7px 0 rgba(30,30,30,.15);
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
     overflow:hidden;
   }
+  /* chalk texture */
   .board:before{
     content:"";
     position:absolute;inset:0;
-    background:
-      repeating-linear-gradient(0deg,transparent 0 8px,rgba(255,255,255,.025) 9px 10px),
-      repeating-linear-gradient(90deg,transparent 0 12px,rgba(0,0,0,.025) 13px 14px);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+    opacity:.35;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+  }
+  /* subtle scan lines */
+  .board:after{
+    content:"";
+    position:absolute;inset:0;
+    background:repeating-linear-gradient(
+      0deg,transparent 0 3px,rgba(255,255,255,.012) 3px 4px
+    );
     pointer-events:none;
   }
+
   .board-label{
-    position:absolute;
-    top:3.5%;
-    left:3%;
-    color:#d7d8ce;
-    font-size:clamp(9px,.9vw,14px);
-    letter-spacing:.18em;
-    opacity:.72;
+    position:absolute;top:3.2%;left:3%;
+    color:#c8c9bf;
+    font-size:clamp(9px,.85vw,13px);
+    letter-spacing:.2em;
+    opacity:.55;
     transform:rotate(-1deg);
+    font-weight:500;
   }
 
+  /* Letters */
   .letters{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:clamp(10px,2.2vw,38px);
-    width:90%;
-    position:relative;
-    z-index:1;
+    display:flex;align-items:center;justify-content:center;
+    gap:clamp(12px,2.4vw,42px);
+    width:88%;
+    position:relative;z-index:1;
   }
   .letter{
-    width:clamp(55px,8vw,145px);
+    width:calc(clamp(52px,7.8vw,138px) * var(--letter-scale,1));
     aspect-ratio:.78;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#f1eee1;
-    font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive;
-    font-size:clamp(50px,7.2vw,125px);
-    font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+    color:#f4f1e4;
+    font-family:"Fredoka","Comic Sans MS",cursive;
+    font-size:calc(clamp(48px,7vw,120px) * var(--letter-scale,1));
+    font-weight:700;
     text-shadow:
-      1px 1px 0 rgba(255,255,255,.18),
-      -1px 0 0 rgba(255,255,255,.12),
-      0 0 2px rgba(255,255,255,.28);
+      0 0 12px rgba(255,255,255,.15),
+      1px 1px 0 rgba(255,255,255,.12),
+      0 2px 4px rgba(0,0,0,.3);
     position:relative;
     transform:rotate(-1deg);
+    transition:font-size .2s cubic-bezier(.34,1.2,.64,1),
+               width .2s cubic-bezier(.34,1.2,.64,1),
+               transform .25s ease,
+               opacity .2s ease;
+    animation:letterIn .35s cubic-bezier(.34,1.4,.64,1) both;
   }
-  .letter:nth-child(2){transform:rotate(1.2deg)}
-  .letter:nth-child(3){transform:rotate(-1.8deg)}
-  .letter:nth-child(4){transform:rotate(.8deg)}
-  .letter:nth-child(5){transform:rotate(-.6deg)}
-  .letter:nth-child(6){transform:rotate(1.5deg)}
+  .letter:nth-child(1){animation-delay:.02s}
+  .letter:nth-child(2){transform:rotate(1.3deg);animation-delay:.05s}
+  .letter:nth-child(3){transform:rotate(-1.7deg);animation-delay:.08s}
+  .letter:nth-child(4){transform:rotate(.9deg);animation-delay:.11s}
+  .letter:nth-child(5){transform:rotate(-.7deg);animation-delay:.14s}
+  .letter:nth-child(6){transform:rotate(1.4deg);animation-delay:.17s}
+
+  @keyframes letterIn{
+    from{opacity:0;transform:scale(.6) translateY(12px)}
+    to{opacity:1}
+  }
+
+  /* chalk underline */
   .letter:after{
     content:"";
     position:absolute;
-    width:80%;height:6px;
-    left:10%;bottom:8%;
-    background:rgba(255,255,255,.1);
+    width:78%;height:5px;
+    left:11%;bottom:7%;
+    background:rgba(255,255,255,.09);
+    border-radius:2px;
     transform:rotate(-2deg);
-    filter:blur(1px);
+    filter:blur(.8px);
   }
 
+  /* Size controls – top right of board */
+  .size-control{
+    position:absolute;
+    top:2.6%;right:2.4%;
+    display:flex;align-items:center;gap:4px;
+    z-index:3;
+    background:rgba(0,0,0,.25);
+    padding:4px 7px 4px 9px;
+    border-radius:20px;
+    border:1px solid rgba(200,201,191,.2);
+    backdrop-filter:blur(4px);
+  }
+  .size-label{
+    color:#c8c9bf;
+    font-family:"Share Tech Mono",monospace;
+    font-size:clamp(8px,.72vw,11px);
+    letter-spacing:.08em;
+    opacity:.7;
+    margin-right:2px;
+  }
+  .size-btn{
+    width:clamp(20px,2vw,28px);
+    height:clamp(20px,2vw,28px);
+    appearance:none;border:none;
+    background:rgba(255,255,255,.1);
+    color:#e8e6d9;
+    border-radius:50%;
+    font-size:clamp(11px,1.15vw,15px);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s,transform .1s;
+    line-height:1;padding:0;
+  }
+  .size-btn:hover{background:rgba(255,255,255,.22)}
+  .size-btn:active{transform:scale(.88);background:rgba(255,255,255,.3)}
+
+  .hint{
+    position:absolute;bottom:.7%;left:50%;
+    transform:translateX(-50%);
+    font-size:clamp(8px,.72vw,11px);
+    letter-spacing:.14em;
+    color:rgba(200,201,191,.45);
+    white-space:nowrap;
+  }
+
+  /* ── KEYBOARD ── */
   .keyboard-area{
-    height:14%;
-    padding-top:1.2vh;
-    position:relative;
-    z-index:2;
+    height:13.5%;
+    padding-top:1.1vh;
+    position:relative;z-index:2;
   }
   .keyboard{
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    align-items:center;
-    gap:.45vw;
-    background:#d8d1bf;
-    border:3px solid #333;
-    border-radius:9px;
-    padding:1vh 1vw;
-    box-shadow:4px 5px 0 rgba(37,37,37,.18);
-    transform:rotate(-.15deg);
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,#e4ddd0,#d4ccbb);
+    border:2.5px solid #2a2a2a;
+    border-radius:10px;
+    padding:.9vh 1.1vw;
+    box-shadow:
+      0 4px 0 #2a2a2a,
+      0 8px 16px rgba(0,0,0,.12);
   }
   .keyrow{
     display:grid;
     grid-template-columns:repeat(26,1fr);
-    gap:.35vw;
-    width:100%;
-    height:100%;
+    gap:.32vw;
+    width:100%;height:100%;
   }
-  .keyrow.r2,.keyrow.r3{display:none}
-  button{
+  .keyrow button{
     appearance:none;
-    border:2px solid #252525;
-    background:#eee9da;
-    color:#222;
-    border-radius:5px;
-    font-family:"Comic Sans MS","Segoe Print",cursive;
-    font-size:clamp(9px,1.05vw,17px);
-    font-weight:900;
+    border:1.8px solid #2a2a2a;
+    background:linear-gradient(180deg,#f5f0e4,#ebe4d4);
+    color:#1e1e1e;
+    border-radius:6px;
+    font-family:"Fredoka",sans-serif;
+    font-size:clamp(9px,1.05vw,16px);
+    font-weight:700;
     cursor:pointer;
-    box-shadow:2px 3px 0 #252525;
-    transform:rotate(-.4deg);
-    transition:.08s;
+    box-shadow:0 2.5px 0 #2a2a2a;
+    transition:transform .08s,box-shadow .08s,background .1s;
   }
-  button:nth-child(even){transform:rotate(.4deg)}
-  button:hover{background:#fff9e9}
-  button:active{transform:translate(2px,3px);box-shadow:0 0 0 #252525}
-
-  .hint{
-    position:absolute;
-    bottom:.6%;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:clamp(8px,.75vw,12px);
-    letter-spacing:.12em;
-    opacity:.6;
-    white-space:nowrap;
+  .keyrow button:hover{
+    background:linear-gradient(180deg,#fffaf0,#f5eedc);
+  }
+  .keyrow button:active,
+  .keyrow button.pressed{
+    transform:translateY(2.5px);
+    box-shadow:0 0 0 #2a2a2a;
+    background:linear-gradient(180deg,#e0d9c8,#d6cfbc);
   }
 
   @media(max-width:900px){
     .clock{width:9vw}
-    .stage{padding:1vh 1vw}
-    .topbar{height:16%}
-    .clock{width:9vw}
-    .keyboard-area{height:31%}
+    .stage{padding:1vh 1.2vw}
+    .topbar{height:15%}
+    .keyboard-area{height:28%}
   }
-  /* DSEG7-compatible embedded-style display. The page is standalone;
-     DSEG7-Classic is requested first, with a seven-segment monospace fallback. */
 </style>
 </head>
 <body>
@@ -333,39 +324,32 @@
   <header class="topbar">
     <div class="clock-wrap">
       <div class="clock" aria-label="Jam analog realtime">
-        <svg class="analog-face" viewBox="0 0 100 100" role="img" aria-label="Jam analog realtime">
-          <!-- One and only one outer watch circle -->
+        <svg class="analog-face" viewBox="0 0 100 100" role="img">
           <circle class="face-ring" cx="50" cy="50" r="47"></circle>
           <circle class="face-inner" cx="50" cy="50" r="42.5"></circle>
-
           <g id="clockTicks"></g>
           <g id="clockNumbers"></g>
-
-          <!-- Hands -->
           <g id="hourHand" class="clock-hand">
-            <line class="hour-hand" x1="50" y1="50" x2="50" y2="29"></line>
+            <line class="hour-hand" x1="50" y1="50" x2="50" y2="28"></line>
             <line class="hand-tail" x1="50" y1="50" x2="50" y2="54"></line>
           </g>
-
           <g id="minuteHand" class="clock-hand">
-            <line class="minute-hand" x1="50" y1="50" x2="50" y2="20"></line>
+            <line class="minute-hand" x1="50" y1="50" x2="50" y2="19"></line>
             <line class="hand-tail" x1="50" y1="50" x2="50" y2="53"></line>
           </g>
-
           <g id="secondHand" class="clock-hand">
-            <line class="second-hand" x1="50" y1="50" x2="50" y2="15"></line>
+            <line class="second-hand" x1="50" y1="50" x2="50" y2="14"></line>
             <line class="second-hand" x1="50" y1="50" x2="50" y2="56"></line>
           </g>
-
-          <circle class="center-ring" cx="50" cy="50" r="3.2"></circle>
-          <circle class="center-dot" cx="50" cy="50" r="1.35"></circle>
+          <circle class="center-ring" cx="50" cy="50" r="3.3"></circle>
+          <circle class="center-dot" cx="50" cy="50" r="1.4"></circle>
         </svg>
       </div>
     </div>
 
     <div class="title">
       <div class="digital-clock" id="digitalClock">00:00:00</div>
-      <span>TES KEMAMPUAN AKADEMIK</span>
+      <div class="title-text">TES KEMAMPUAN AKADEMIK</div>
     </div>
 
     <div class="calendar">
@@ -378,7 +362,12 @@
   <main class="board">
     <div class="board-label">TOKEN</div>
     <div class="letters" id="letters"></div>
-    <div class="hint">CLICK THE LETTERS ON THE KEYBOARD</div>
+    <div class="size-control">
+      <span class="size-label">SIZE</span>
+      <button type="button" class="size-btn" id="sizeUp" title="Perbesar" aria-label="Perbesar huruf">▲</button>
+      <button type="button" class="size-btn" id="sizeDown" title="Perkecil" aria-label="Perkecil huruf">▼</button>
+    </div>
+    <div class="hint">TYPE OR CLICK A LETTER</div>
   </main>
 
   <section class="keyboard-area">
@@ -391,18 +380,22 @@
 <script>
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let displayed = [];
+let letterScale = 1;
+const MIN_SCALE = 0.55, MAX_SCALE = 1.75, SCALE_STEP = 0.1;
 
 function randomLetters(){
   displayed = Array.from({length:6},()=>alphabet[Math.floor(Math.random()*26)]);
   renderLetters();
 }
+
 function renderLetters(){
-  const box=document.getElementById("letters");
-  box.innerHTML="";
-  displayed.forEach(ch=>{
-    const el=document.createElement("div");
-    el.className="letter";
-    el.textContent=ch;
+  const box = document.getElementById("letters");
+  box.innerHTML = "";
+  displayed.forEach((ch,i)=>{
+    const el = document.createElement("div");
+    el.className = "letter";
+    el.textContent = ch;
+    el.style.animationDelay = (i*0.03)+"s";
     box.appendChild(el);
   });
 }
@@ -411,50 +404,62 @@ function addLetter(ch){
   displayed.shift();
   displayed.push(ch);
   renderLetters();
+  // visual feedback on keyboard button
+  const btn = document.querySelector(`.keyrow button[data-key="${ch}"]`);
+  if(btn){
+    btn.classList.add("pressed");
+    setTimeout(()=>btn.classList.remove("pressed"),120);
+  }
 }
 
 function makeKeyboard(){
-  const row=document.getElementById("row1");
-  row.innerHTML="";
+  const row = document.getElementById("row1");
+  row.innerHTML = "";
   [...alphabet].forEach(ch=>{
-    const b=document.createElement("button");
-    b.type="button";
-    b.textContent=ch;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = ch;
+    b.dataset.key = ch;
     b.setAttribute("aria-label","Huruf "+ch);
-    b.onclick=()=>addLetter(ch);
+    b.onclick = ()=>addLetter(ch);
     row.appendChild(b);
   });
 }
 
-/* Physical keyboard input – does not focus any input, so no virtual keyboard is triggered */
-document.addEventListener("keydown", (e) => {
-  // Ignore if modifier keys are held (except Shift for uppercase)
-  if (e.ctrlKey || e.altKey || e.metaKey) return;
+function setLetterScale(s){
+  letterScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
+  document.documentElement.style.setProperty("--letter-scale", letterScale);
+}
+function enlargeLetters(){ setLetterScale(letterScale + SCALE_STEP); }
+function shrinkLetters(){ setLetterScale(letterScale - SCALE_STEP); }
 
+document.getElementById("sizeUp").onclick = enlargeLetters;
+document.getElementById("sizeDown").onclick = shrinkLetters;
+
+document.addEventListener("keydown", e=>{
+  if(e.ctrlKey||e.altKey||e.metaKey) return;
   const key = e.key.toUpperCase();
-  if (alphabet.includes(key)) {
-    e.preventDefault(); // prevent any default browser behavior
+  if(alphabet.includes(key)){
+    e.preventDefault();
     addLetter(key);
+    return;
   }
+  if(e.key==="ArrowUp"){ e.preventDefault(); enlargeLetters(); }
+  else if(e.key==="ArrowDown"){ e.preventDefault(); shrinkLetters(); }
 });
 
-
-/* Build the analog watch face once.
-   SVG coordinates keep every element aligned and prevent accidental double rings. */
-function polar(cx,cy,r,angleDeg){
-  const a=(angleDeg-90)*Math.PI/180;
-  return {x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};
+/* Analog face */
+function polar(cx,cy,r,deg){
+  const a=(deg-90)*Math.PI/180;
+  return {x:cx+r*Math.cos(a), y:cy+r*Math.sin(a)};
 }
-
 function buildAnalogFace(){
   const ticks=document.getElementById("clockTicks");
   const nums=document.getElementById("clockNumbers");
-
   for(let i=0;i<60;i++){
     const angle=i*6;
     const outer=polar(50,50,43.8,angle);
-    const inner=polar(50,50,i%5===0?39.2:41.2,angle);
-
+    const inner=polar(50,50,i%5===0?39:41.2,angle);
     const line=document.createElementNS("http://www.w3.org/2000/svg","line");
     line.setAttribute("x1",inner.x.toFixed(2));
     line.setAttribute("y1",inner.y.toFixed(2));
@@ -463,15 +468,14 @@ function buildAnalogFace(){
     line.setAttribute("class",i%5===0?"tick major":"tick minor");
     ticks.appendChild(line);
   }
-
   for(let n=1;n<=12;n++){
-    const p=polar(50,50,34.5,n*30);
-    const text=document.createElementNS("http://www.w3.org/2000/svg","text");
-    text.setAttribute("x",p.x.toFixed(2));
-    text.setAttribute("y",p.y.toFixed(2));
-    text.setAttribute("class","clock-number");
-    text.textContent=String(n);
-    nums.appendChild(text);
+    const p=polar(50,50,34,n*30);
+    const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+    t.setAttribute("x",p.x.toFixed(2));
+    t.setAttribute("y",p.y.toFixed(2));
+    t.setAttribute("class","clock-number");
+    t.textContent=String(n);
+    nums.appendChild(t);
   }
 }
 
@@ -479,24 +483,20 @@ function setHand(id,deg){
   document.getElementById(id).style.transform=`rotate(${deg}deg)`;
 }
 
-/* Realtime analog clock */
 function updateClock(){
   const now=new Date();
   const s=now.getSeconds()+now.getMilliseconds()/1000;
   const m=now.getMinutes()+s/60;
   const h=(now.getHours()%12)+m/60;
-
   setHand("secondHand",s*6);
   setHand("minuteHand",m*6);
   setHand("hourHand",h*30);
-
-  document.getElementById("digitalClock").textContent =
+  document.getElementById("digitalClock").textContent=
     String(now.getHours()).padStart(2,"0")+":"+
     String(now.getMinutes()).padStart(2,"0")+":"+
     String(now.getSeconds()).padStart(2,"0");
 }
 
-/* Realtime calendar */
 const months=["JANUARI","FEBRUARI","MARET","APRIL","MEI","JUNI","JULI","AGUSTUS","SEPTEMBER","OKTOBER","NOVEMBER","DESEMBER"];
 const days=["MINGGU","SENIN","SELASA","RABU","KAMIS","JUMAT","SABTU"];
 function updateDate(){
