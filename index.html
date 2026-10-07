@@ -212,16 +212,16 @@
     filter:blur(.8px);
   }
 
-  /* Surface air: biru di bawah, putih di atas; --water = tinggi permukaan */
+  /* Surface air: rose pink di bawah, putih di atas; --water = tinggi permukaan */
   .letter.water-active{
     color:transparent;
     text-shadow:none;
     background-image:linear-gradient(
       to top,
-      #1565c0 0%,
-      #2196f3 calc(var(--water) - 4%),
-      #64b5f6 calc(var(--water) - 1%),
-      #bbdefb var(--water),
+      #c2185b 0%,
+      #e91e63 calc(var(--water) - 4%),
+      #f48fb1 calc(var(--water) - 1%),
+      #fce4ec var(--water),
       #f4f1e4 var(--water),
       #f4f1e4 100%
     );
@@ -230,7 +230,7 @@
     filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
   }
   .letter.water-active:after{
-    background:rgba(33,150,243,.28);
+    background:rgba(233,30,99,.28);
   }
 
   .size-control{
