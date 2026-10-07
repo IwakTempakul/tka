@@ -212,25 +212,25 @@
     filter:blur(.8px);
   }
 
-  /* Surface air: rose pink di bawah, putih di atas; --water = tinggi permukaan */
+  /* Saat Enter ditekan: pink neon penuh lalu perlahan kembali ke putih selama 15 menit. */
   .letter.water-active{
     color:transparent;
     text-shadow:none;
     background-image:linear-gradient(
       to top,
-      #c2185b 0%,
-      #e91e63 calc(var(--water) - 4%),
-      #f48fb1 calc(var(--water) - 1%),
+      #ff1493 0%,
+      #ff2aa6 calc(var(--water) - 8%),
+      #ff69b4 calc(var(--water) - 2%),
       #fce4ec var(--water),
       #f4f1e4 var(--water),
       #f4f1e4 100%
     );
     -webkit-background-clip:text;
     background-clip:text;
-    filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+    filter:drop-shadow(0 0 5px rgba(255,20,147,.55));
   }
   .letter.water-active:after{
-    background:rgba(233,30,99,.28);
+    background:rgba(255,20,147,.35);
   }
 
   .size-control{
@@ -420,6 +420,8 @@ function stopDrain(){
 }
 
 function addLetter(ch){
+  // Setiap huruf baru selalu kembali ke warna default putih.
+  stopDrain();
   displayed.shift();
   displayed.push(ch);
   renderLetters();
