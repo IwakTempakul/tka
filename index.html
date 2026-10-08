@@ -221,6 +221,7 @@ body{
 .board{
   flex:1;
   min-height:0;
+
   background:
     radial-gradient(
       ellipse at 25% 20%,
@@ -249,10 +250,13 @@ body{
     5px 7px 0 rgba(30,30,30,.15);
 
   position:relative;
+
   display:flex;
   align-items:flex-start;
   justify-content:center;
+
   padding-top:clamp(28px,5.5vh,52px);
+
   overflow:hidden;
 }
 
@@ -260,8 +264,10 @@ body{
   content:"";
   position:absolute;
   inset:0;
+
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+
   opacity:.35;
   pointer-events:none;
   mix-blend-mode:overlay;
@@ -271,11 +277,13 @@ body{
   content:"";
   position:absolute;
   inset:0;
+
   background:repeating-linear-gradient(
     0deg,
     transparent 0 3px,
     rgba(255,255,255,.012) 3px 4px
   );
+
   pointer-events:none;
 }
 
@@ -283,11 +291,15 @@ body{
   position:absolute;
   top:3.2%;
   left:3%;
+
   color:#c8c9bf;
+
   font-size:clamp(9px,.85vw,13px);
   letter-spacing:.2em;
   opacity:.55;
+
   transform:rotate(-1deg);
+
   font-weight:500;
 }
 
@@ -295,8 +307,11 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+
   gap:clamp(12px,2.4vw,42px);
+
   width:88%;
+
   position:relative;
   z-index:1;
 }
@@ -313,13 +328,11 @@ body{
   align-items:center;
   justify-content:center;
 
-  /* ==========================================
-     WARNA DEFAULT
-     RGB(255, 0, 0)
-     ========================================== */
+  /* DEFAULT = RGB(255,0,0) */
   color:rgb(255,0,0);
 
   font-family:"Fredoka","Comic Sans MS",cursive;
+
   font-size:calc(
     clamp(48px,7vw,120px)
     * var(--letter-scale,1)
@@ -333,6 +346,7 @@ body{
     0 2px 4px rgba(0,0,0,.3);
 
   position:relative;
+
   transform:rotate(-1deg);
 
   transition:
@@ -390,40 +404,38 @@ body{
 
 .letter:after{
   content:"";
+
   position:absolute;
+
   width:78%;
   height:5px;
+
   left:11%;
   bottom:7%;
 
   background:rgba(255,0,0,.09);
 
   border-radius:2px;
+
   transform:rotate(-2deg);
+
   filter:blur(.8px);
 }
 
 
-/* ==================================================
-   MODE AKTIF SAAT ENTER
-
-   Warna kedua:
-   RGB(255, 255, 255)
-
-   Putih akan perlahan kembali ke:
-   RGB(255, 0, 0)
-
-   selama 15 menit.
-   ================================================== */
+/* ================================================
+   ACTIVE
+   PUTIH -> MERAH SELAMA 15 MENIT
+   ================================================ */
 
 .letter.water-active{
   color:transparent;
+
   text-shadow:none;
 
   background-image:linear-gradient(
     to top,
 
-    /* Putih murni saat baru ditekan Enter */
     rgb(255,255,255) 0%,
 
     rgb(255,255,255)
@@ -432,14 +444,12 @@ body{
     rgb(255,180,180)
       calc(var(--water) - 2%),
 
-    /* Mulai transisi menuju merah */
     rgb(255,70,70)
       var(--water),
 
     rgb(255,0,0)
       var(--water),
 
-    /* Default akhir */
     rgb(255,0,0) 100%
   );
 
@@ -459,11 +469,13 @@ body{
 
 .size-control{
   position:absolute;
+
   top:2.6%;
   right:2.4%;
 
   display:flex;
   align-items:center;
+
   gap:4px;
 
   z-index:3;
@@ -483,10 +495,15 @@ body{
 
 .size-label{
   color:#c8c9bf;
+
   font-family:"Share Tech Mono",monospace;
+
   font-size:clamp(8px,.72vw,11px);
+
   letter-spacing:.08em;
+
   opacity:.7;
+
   margin-right:2px;
 }
 
@@ -498,6 +515,7 @@ body{
   border:none;
 
   background:rgba(255,255,255,.1);
+
   color:#e8e6d9;
 
   border-radius:50%;
@@ -515,6 +533,7 @@ body{
     transform .1s;
 
   line-height:1;
+
   padding:0;
 }
 
@@ -581,6 +600,7 @@ body{
 
           <g id="clockNumbers"></g>
 
+
           <g
             id="hourHand"
             class="clock-hand"
@@ -603,6 +623,7 @@ body{
             ></line>
 
           </g>
+
 
           <g
             id="minuteHand"
@@ -627,6 +648,7 @@ body{
 
           </g>
 
+
           <g
             id="secondHand"
             class="clock-hand"
@@ -649,6 +671,7 @@ body{
             ></line>
 
           </g>
+
 
           <circle
             class="center-ring"
@@ -747,7 +770,7 @@ body{
         type="button"
         class="size-btn"
         id="sizeDown"
-        title="Perkecil"
+        title="Perkecil huruf"
         aria-label="Perkecil huruf"
       >
         ▼
@@ -762,6 +785,10 @@ body{
 
 <script>
 
+/* ================================================
+   LETTER SYSTEM
+   ================================================ */
+
 const alphabet =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -774,12 +801,9 @@ const MAX_SCALE = 1.75;
 const SCALE_STEP = 0.1;
 
 
-/*
-==================================================
-DURASI WARNA PUTIH
-15 MENIT
-==================================================
-*/
+/* ================================================
+   ACTIVE COUNTDOWN
+   ================================================ */
 
 const DRAIN_MS =
   15 * 60 * 1000;
@@ -789,18 +813,48 @@ let drainRaf = null;
 
 
 /*
-==================================================
-HOURLY CHIME
-==================================================
+   Menandakan bahwa sistem sedang aktif.
+
+   true:
+   - huruf sedang putih
+   - countdown berjalan
+   - Enter diabaikan
+
+   false:
+   - huruf normal merah
+   - Enter dapat mengaktifkan
 */
+
+let isActive = false;
+
+
+/* ================================================
+   AUDIO
+   ================================================ */
 
 const chimeAudio =
   new Audio("chime.mp3");
 
 chimeAudio.preload = "auto";
 
+
+/*
+   Audio yang dimainkan tepat saat
+   huruf berubah menjadi putih.
+*/
+
+const activeAudio =
+  new Audio("active.mp3");
+
+activeAudio.preload = "auto";
+
+
 let lastChimeHour = -1;
 
+
+/* ================================================
+   CHIME PER JAM
+   ================================================ */
 
 function checkHourlyChime(){
 
@@ -840,11 +894,9 @@ function checkHourlyChime(){
 }
 
 
-/*
-==================================================
-RANDOM LETTERS
-==================================================
-*/
+/* ================================================
+   RANDOM LETTERS
+   ================================================ */
 
 function randomLetters(){
 
@@ -864,11 +916,9 @@ function randomLetters(){
 }
 
 
-/*
-==================================================
-RENDER LETTERS
-==================================================
-*/
+/* ================================================
+   RENDER
+   ================================================ */
 
 function renderLetters(){
 
@@ -878,12 +928,12 @@ function renderLetters(){
     );
 
 
-  const wasActive =
-    drainStart !== null;
+  const active =
+    isActive;
 
 
   const waterPct =
-    wasActive
+    active
       ? getWaterPct()
       : 100;
 
@@ -903,20 +953,21 @@ function renderLetters(){
       el.className =
         "letter" +
         (
-          wasActive
+          active
             ? " water-active"
             : ""
         );
 
 
-      el.textContent = ch;
+      el.textContent =
+        ch;
 
 
       el.style.animationDelay =
-        (i*0.03) + "s";
+        (i * 0.03) + "s";
 
 
-      if(wasActive){
+      if(active){
 
         el.style.setProperty(
           "--water",
@@ -934,15 +985,14 @@ function renderLetters(){
 }
 
 
-/*
-==================================================
-HITUNG LEVEL WARNA
-==================================================
-*/
+/* ================================================
+   WATER / COUNTDOWN
+   ================================================ */
 
 function getWaterPct(){
 
   if(
+    !isActive ||
     drainStart === null
   ){
     return 100;
@@ -967,22 +1017,23 @@ function getWaterPct(){
 }
 
 
-/*
-==================================================
-UPDATE WARNA
-==================================================
-*/
+/* ================================================
+   UPDATE ACTIVE COLOR
+   ================================================ */
 
 function applyWaterLevel(){
+
+  if(!isActive){
+    return;
+  }
+
 
   const pct =
     getWaterPct();
 
 
   document
-    .querySelectorAll(
-      ".letter"
-    )
+    .querySelectorAll(".letter")
     .forEach(
       el=>{
 
@@ -995,15 +1046,17 @@ function applyWaterLevel(){
     );
 
 
+  /*
+     Setelah 15 menit selesai,
+     kembali ke merah.
+  */
+
   if(pct <= 0){
 
     stopDrain();
 
-
     document
-      .querySelectorAll(
-        ".letter"
-      )
+      .querySelectorAll(".letter")
       .forEach(
         el=>{
 
@@ -1023,20 +1076,16 @@ function applyWaterLevel(){
 }
 
 
-/*
-==================================================
-ANIMATION FRAME
-==================================================
-*/
+/* ================================================
+   ANIMATION FRAME
+   ================================================ */
 
 function drainTick(){
 
   applyWaterLevel();
 
 
-  if(
-    drainStart !== null
-  ){
+  if(isActive){
 
     drainRaf =
       requestAnimationFrame(
@@ -1048,14 +1097,27 @@ function drainTick(){
 }
 
 
-/*
-==================================================
-ENTER
-MERAH -> PUTIH
-==================================================
-*/
+/* ================================================
+   START ACTIVE
+   ================================================ */
 
 function startDrain(){
+
+  /*
+     PENTING:
+
+     Jika sudah aktif, jangan lakukan
+     apa-apa.
+
+     Ini mencegah Enter kedua kali
+     memutar active.mp3 lagi dan
+     mereset countdown.
+  */
+
+  if(isActive){
+    return;
+  }
+
 
   if(drainRaf){
 
@@ -1067,7 +1129,14 @@ function startDrain(){
 
 
   /*
-    Mulai hitungan 15 menit
+     Tandai sistem aktif
+  */
+
+  isActive = true;
+
+
+  /*
+     Mulai countdown 15 menit
   */
 
   drainStart =
@@ -1075,21 +1144,17 @@ function startDrain(){
 
 
   /*
-    Semua huruf menjadi putih
-    RGB(255,255,255)
+     Ubah semua huruf menjadi putih
   */
 
   document
-    .querySelectorAll(
-      ".letter"
-    )
+    .querySelectorAll(".letter")
     .forEach(
       el=>{
 
         el.classList.add(
           "water-active"
         );
-
 
         el.style.setProperty(
           "--water",
@@ -1100,6 +1165,26 @@ function startDrain(){
     );
 
 
+  /*
+     PUTAR active.mp3
+     tepat saat huruf menjadi putih.
+  */
+
+  try{
+
+    activeAudio.currentTime = 0;
+
+    activeAudio
+      .play()
+      .catch(()=>{});
+
+  }catch(e){}
+
+
+  /*
+     Mulai countdown animation
+  */
+
   drainRaf =
     requestAnimationFrame(
       drainTick
@@ -1108,11 +1193,9 @@ function startDrain(){
 }
 
 
-/*
-==================================================
-STOP DRAIN
-==================================================
-*/
+/* ================================================
+   STOP ACTIVE
+   ================================================ */
 
 function stopDrain(){
 
@@ -1129,43 +1212,61 @@ function stopDrain(){
 
   drainStart = null;
 
+  isActive = false;
+
 }
 
 
-/*
-==================================================
-INPUT HURUF BARU
-KEMBALI KE MERAH DEFAULT
-==================================================
-*/
+/* ================================================
+   HURUF BARU
+   ================================================ */
 
 function addLetter(ch){
 
   /*
-    Setiap huruf baru
-    langsung kembali ke:
+     Jika sedang aktif, memasukkan
+     huruf baru membatalkan countdown.
 
-    RGB(255,0,0)
+     Ini juga membuat sistem dapat
+     diaktifkan kembali dengan Enter.
   */
 
-  stopDrain();
+  if(isActive){
 
+    stopDrain();
+
+  }
+
+
+  /*
+     Geser huruf pertama keluar
+  */
 
   displayed.shift();
 
+
+  /*
+     Masukkan huruf baru
+  */
+
   displayed.push(ch);
 
+
+  /*
+     Render ulang.
+
+     Karena isActive sudah false,
+     semua huruf menjadi merah.
+  */
 
   renderLetters();
 
 }
 
 
-/*
-==================================================
-UKURAN HURUF
-==================================================
-*/
+/* ================================================
+   UKURAN HURUF
+   ================================================ */
 
 function setLetterScale(s){
 
@@ -1221,11 +1322,9 @@ document.getElementById(
   shrinkLetters;
 
 
-/*
-==================================================
-KEYBOARD
-==================================================
-*/
+/* ================================================
+   KEYBOARD
+   ================================================ */
 
 document.addEventListener(
   "keydown",
@@ -1241,8 +1340,15 @@ document.addEventListener(
 
 
     /*
-      ENTER
-      Merah -> Putih
+       ENTER
+
+       Jika belum aktif:
+       merah -> putih
+       active.mp3 dimainkan
+       countdown mulai
+
+       Jika sudah aktif:
+       DIABAIKAN
     */
 
     if(
@@ -1251,7 +1357,11 @@ document.addEventListener(
 
       e.preventDefault();
 
-      startDrain();
+      if(!isActive){
+
+        startDrain();
+
+      }
 
       return;
 
@@ -1259,8 +1369,10 @@ document.addEventListener(
 
 
     /*
-      HURUF
-      Putih/aktif -> Merah default
+       HURUF
+
+       Huruf baru selalu membatalkan
+       status active dan countdown.
     */
 
     const key =
@@ -1281,7 +1393,7 @@ document.addEventListener(
 
 
     /*
-      UKURAN
+       PANAH UNTUK UKURAN
     */
 
     if(
@@ -1308,11 +1420,9 @@ document.addEventListener(
 );
 
 
-/*
-==================================================
-ANALOG CLOCK
-==================================================
-*/
+/* ================================================
+   ANALOG CLOCK
+   ================================================ */
 
 function polar(
   cx,
@@ -1357,10 +1467,6 @@ function buildAnalogFace(){
     );
 
 
-  /*
-    TICK
-  */
-
   for(
     let i=0;
     i<60;
@@ -1384,7 +1490,7 @@ function buildAnalogFace(){
       polar(
         50,
         50,
-        i%5===0
+        i % 5 === 0
           ? 39
           : 41.2,
         angle
@@ -1421,7 +1527,7 @@ function buildAnalogFace(){
 
     line.setAttribute(
       "class",
-      i%5===0
+      i % 5 === 0
         ? "tick major"
         : "tick minor"
     );
@@ -1434,10 +1540,6 @@ function buildAnalogFace(){
   }
 
 
-  /*
-    ANGKA JAM
-  */
-
   for(
     let n=1;
     n<=12;
@@ -1449,7 +1551,7 @@ function buildAnalogFace(){
         50,
         50,
         34,
-        n*30
+        n * 30
       );
 
 
@@ -1490,11 +1592,9 @@ function buildAnalogFace(){
 }
 
 
-/*
-==================================================
-JARUM JAM
-==================================================
-*/
+/* ================================================
+   CLOCK HAND
+   ================================================ */
 
 function setHand(
   id,
@@ -1517,34 +1617,34 @@ function updateClock(){
 
   const s =
     now.getSeconds() +
-    now.getMilliseconds()/1000;
+    now.getMilliseconds() / 1000;
 
 
   const m =
     now.getMinutes() +
-    s/60;
+    s / 60;
 
 
   const h =
-    (now.getHours()%12) +
-    m/60;
+    (now.getHours() % 12) +
+    m / 60;
 
 
   setHand(
     "secondHand",
-    s*6
+    s * 6
   );
 
 
   setHand(
     "minuteHand",
-    m*6
+    m * 6
   );
 
 
   setHand(
     "hourHand",
-    h*30
+    h * 30
   );
 
 
@@ -1575,11 +1675,9 @@ function updateClock(){
 }
 
 
-/*
-==================================================
-KALENDER
-==================================================
-*/
+/* ================================================
+   CALENDAR
+   ================================================ */
 
 const months = [
   "JANUARI",
@@ -1641,22 +1739,16 @@ function updateDate(){
       now.getMonth()
     ]
 
-    +
-
-    " "
-
-    +
+    + " " +
 
     now.getFullYear();
 
 }
 
 
-/*
-==================================================
-INITIALIZATION
-==================================================
-*/
+/* ================================================
+   INITIALIZATION
+   ================================================ */
 
 randomLetters();
 
